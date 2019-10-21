@@ -23,12 +23,14 @@ public class EmployeeResource {
 
     private static final Logger LOG = LoggerFactory.getLogger(EmployeeResource.class);
 
-    @Autowired
-    EmployeeService service;
+    private final EmployeeService service;
 
-    @Autowired
-    @Qualifier("applicationprops")
-    ApplicationProperties applicationProperties;
+    private final ApplicationProperties applicationProperties;
+
+    public EmployeeResource(EmployeeService service, ApplicationProperties applicationProperties){
+        this.service = service;
+        this.applicationProperties = applicationProperties;
+    }
 
     /**
      * This API is used for just fetching the configuration properties configurated using @ConfigurationProperties annotation
@@ -55,25 +57,28 @@ public class EmployeeResource {
         LOG.debug("getEmployeeById method started {}",id);
         Employee entity = null;
         try{
-            service.getEmployeeById(id);
+            entity = service.getEmployeeById(id);
         }catch (RecordNotFoundException e){
             throw e;
         }
         return new ResponseEntity<>(entity, new HttpHeaders(), HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("/employees")
     public ResponseEntity<Employee> createOrUpdateEmployee(@Valid @RequestBody Employee employee) throws RecordNotFoundException {
         LOG.debug("createOrUpdateEmployee method started {}",employee);
         Employee updated = service.createOrUpdateEmployee(employee);
-        return new ResponseEntity<>(updated, new HttpHeaders(), HttpStatus.OK);
+        return new ResponseEntity<>(updated, new HttpHeaders(), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/employees/{id}")
-    public HttpStatus deleteEmployeeById(@PathVariable("id") Long id) throws RecordNotFoundException {
+    public ResponseEntity<Void> deleteEmployeeById(@PathVariable("id") Long id) throws RecordNotFoundException {
         LOG.debug("deleteEmployeeById method started {}",id);
         service.deleteEmployeeById(id);
-        return HttpStatus.FORBIDDEN;
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("X-adtApp-alert", "employee deleted");
+        headers.add("X-adtApp-params", id.toString());
+        return ResponseEntity.ok().headers(headers).build();
     }
 
 }

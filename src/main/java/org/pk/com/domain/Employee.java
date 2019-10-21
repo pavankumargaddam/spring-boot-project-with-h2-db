@@ -26,6 +26,22 @@ public class Employee implements Serializable {
     @Email(message = "email should be valid email")
     private String email;
 
+    public Employee() {
+        //Default constructor
+    }
+
+    /**
+     * Param constructor
+     * @param firstName
+     * @param lastName
+     * @param email
+     */
+    public Employee(String firstName, String lastName, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
+
     public Long getId() {
         return id;
     }

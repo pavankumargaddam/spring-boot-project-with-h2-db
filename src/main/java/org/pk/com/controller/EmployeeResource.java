@@ -1,12 +1,14 @@
 package org.pk.com.controller;
 
 
+import org.pk.com.config.ApplicationProperties;
 import org.pk.com.domain.Employee;
 import org.pk.com.exception.RecordNotFoundException;
 import org.pk.com.service.EmployeeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,20 @@ public class EmployeeResource {
 
     @Autowired
     EmployeeService service;
+
+    @Autowired
+    @Qualifier("applicationprops")
+    ApplicationProperties applicationProperties;
+
+    /**
+     * This API is used for just fetching the configuration properties configurated using @ConfigurationProperties annotation
+     * @return
+     */
+    @GetMapping("/configurationproperties")
+    public ApplicationProperties.AthmaBucket getAllConfigurationProperties(){
+        LOG.debug("getAllConfigurationProperties method started");
+        return applicationProperties.getAthmaBucket();
+    }
 
     @GetMapping("/employees")
     public ResponseEntity<List<Employee>> getAllEmployees() throws RecordNotFoundException {

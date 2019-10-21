@@ -16,14 +16,14 @@ EmployeeResource, ApplicationProperties and application yml file.
 
 # EmployeeResourceIntTest class added for Mocking the Employee Resource Api's.
 
-#if you want run specific test case method, use the below mvn command.
+# if you want run specific test case method, use the below mvn command.
 mvn test -Dtest=EmployeeResourceIntTest#getEmployee test
 
-#if u want run all test cases with in the Test class, use the below mvn command.
+# if u want run all test cases with in the Test class, use the below mvn command.
 mvn test -Dtest=EmployeeResourceIntTest test
 
-#if u want run all the test classes, use the below mvn command.
+# if u want run all the test classes, use the below mvn command.
 mvn test or mvn clean install 
 
-#skip all test cases using below command
+# skip all test cases using below command
 mvn clean install -DskipTests=true

@@ -13,3 +13,5 @@ Underlaying server taken as Jetty in this project. If you want tomcat , comment 
 # @ConfigurationProperties changes are added
 Refer the changes in below files
 EmployeeResource, ApplicationProperties and application yml file.
+
+# EmployeeResourceIntTest class added for Mocking the Employee Resource Api's.
